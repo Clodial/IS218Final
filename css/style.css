@@ -1,0 +1,7 @@
+.hoverButton button{
+	width: 				100%;
+	background-color: 	white;
+}
+.hoverButton:hover button{
+	background-color:	green;
+}
