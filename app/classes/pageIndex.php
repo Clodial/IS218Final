@@ -43,7 +43,7 @@ class pageIndex extends pageTemplate{
 
 		}
 
-
+		echo '<h3>By Matthew Maravilla</h3>';
 	}
 
 	public function deptButton($deptName){

@@ -36,20 +36,20 @@ class pageDeptList extends pageTemplate{
 				$this->deptButton($this->dept);
 				$this->goBack();
 				$stmt = $this->dbPage->prepare('
-					select employees.first_name, employees.last_name, dept_emp.from_date, salaries.salary
+					select employees.first_name, employees.last_name, dept_emp.from_date, dept_emp.to_date, salaries.salary
 					from employees, dept_emp, departments, salaries
 					where employees.emp_no = dept_emp.emp_no
 						and dept_emp.emp_no = salaries.emp_no
 						and dept_emp.dept_no = departments.dept_no
 						and salaries.to_date = "9999-01-01"	
 						and departments.dept_name = :dept
-					order by salaries.salary desc;
+					order by employees.emp_no desc;
 					');
 				$stmt->bindParam(':dept',$this->dept);
 				if($stmt->execute()){
 					while($dName = $stmt->fetch()){
 						echo '<div>';
-						echo ''. $dName[0] . ' ' . $dName[1] . ' From: ' . $dName[2] . ' Salary: ' . $dName[3];
+						echo ''. $dName[0] . ' ' . $dName[1] . ' From: ' . $dName[2] . ' To: ' . $dName[3] . ' Salary: ' . $dName[4];
 						echo '</div></br>';
 					}
 				}

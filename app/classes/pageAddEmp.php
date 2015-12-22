@@ -33,7 +33,7 @@ class pageAddEmp extends pageTemplate{
 
 		echo '<h3 class="jumbotron">Add Employee</h3>';
 		try{
-			$stmt = $this->db->prepare("select emp_no from dept_emp order by emp_no limit 1;");
+			$stmt = $this->db->prepare("select emp_no from employees order by emp_no desc limit 1;");
 			if($stmt->execute()){
 				while($row = $stmt->fetch()){
 					$empNo = $row[0]+1; 
@@ -50,14 +50,13 @@ class pageAddEmp extends pageTemplate{
 
 		$timeArr = getdate();
 		$timeStr = date('Y-m-d');
-		echo $timeStr;
 
 		try{
 
 			echo '<form method="get">';
-			echo '	<input type="hidden" name="empNo" value-"' . $num . '">';
+			echo '	<input type="hidden" name="empNo" value="' . $num . '">';
 			echo '	<input type="hidden" name="toDate" value="9999-01-01">';
-			echo '  <input type="hidden" name="fromDate" value"' . $timeStr . '">';
+			echo '  <input type="hidden" name="fromDate" value="' . $timeStr . '">';
 			echo ' 	First Name<input type="text" name="first" required><br/>';
 			echo '	Last Name<input type="text" name="last" required></br>';
 			echo '	Gender<select name="gender">';
@@ -65,6 +64,28 @@ class pageAddEmp extends pageTemplate{
 			echo '		<option value="F">Female</option>';
 			echo '		<option value="N">Opt-out</option>';
 			echo '	</select></br>';
+			echo '	Birthday Year<select name="year">';
+			for($i = 1900; $i < date('Y'); $i += 1){
+				echo '	<option value="' . $i . '">' . $i . '</option>';
+			}
+			echo '	</select></br>';
+			echo '	Birthday month<select name="month">';
+			for($i = 1; $i < 13; $i += 1){
+				if($i < 10){
+					$i = '0' . $i;
+				}
+				echo '	<option value="' . $i . '">' . $i . '</option>';
+			}
+			echo '	</select></br>';
+			echo '	Birthday day<select name="day">';
+			for($i = 1; $i < 32; $i += 1){
+				if($i < 10){
+					$i = '0' . $i;
+				}
+				echo '	<option value="' . $i . '">' . $i . '</option>';
+			}
+			echo '	</select></br>';
+
 			echo ' 	Department<select name="department">';
 			$stmt = $this->db->prepare("select dept_name from departments");
 			if($stmt->execute()){

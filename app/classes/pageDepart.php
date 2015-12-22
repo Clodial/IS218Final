@@ -32,6 +32,7 @@ class pageDepart extends pageTemplate{
 		if(isset($_REQUEST['department'])){
 			$this->department = $_REQUEST['department'];
 
+			echo '<h3>' . $this->department . '</h3>';
 			try{
 				echo '<h3>Department Manager: </h3>';
 				$stmt = $this->dbPage->prepare('
@@ -85,16 +86,15 @@ class pageDepart extends pageTemplate{
 					from salaries, dept_emp, departments
 					where salaries.emp_no = dept_emp.emp_no
 						and dept_emp.dept_no = departments.dept_no
-						and dept_emp.to_date = "9999-01-01"
+						and salaries.to_date = "9999-01-01"
 						and departments.dept_name = :dept;
 					');
 				$stmt->bindParam(':dept',$this->department);
 				if($stmt->execute()){
 					while($dName = $stmt->fetch()){
-						echo '$' . number_format((float)$dName[0], 2, '.', '') . '</br>';
+						echo '$' . number_format((float)$dName[0], 2, '.', '') . '</br></br>';
 					}
 				}
-				echo $this->department;
 				$this->deptButton($this->department);
 				$this->goBack();
 			}
